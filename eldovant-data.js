@@ -115,6 +115,28 @@ window.ELDOVANT_DATA = {
   */
   productions: [],
 
+  /* SHOP — digital releases only (en/shop/). Add only real, sellable releases.
+     provider     : name of the payment provider shown before payment (e.g. 'Stripe'); leave empty until chosen.
+     supportEmail : optional; falls back to contact.email.
+     taxNote      : optional one line about tax, only if it is true for your setup.
+     delivery     : { method: 'how files/access arrive', after: 'what the buyer sees/receives after paying' }
+     Return URLs to set at your payment provider:  success -> /en/shop/#/thanks   cancel -> /en/shop/#/cancelled
+
+     Release example — keep it commented until it is real:
+     {
+       id: 'title-slug', title: 'Title', category: 'Music',   // or 'Motion Pictures'
+       kind: 'Album', year: 2026, status: 'available',        // 'available' | 'soon' | 'unavailable'
+       summary: 'One precise sentence.', description: 'Longer text.\n\nSecond paragraph.',
+       cover: 'assets/title-cover.jpg', image: 'assets/title-wide.jpg', imageAlt: '', ratio: '1/1',
+       price: { amount: 9, currency: 'EUR' },                 // promo: { was: 12 } only if a real promotion
+       format: 'WAV + MP3', size: '240 MB', includes: ['12 tracks', 'Booklet (PDF)'],
+       specs: [ { label: 'Duration', value: '48 min' } ], licence: '', delivery: '', after: '',
+       previews: [ { type: 'audio', src: 'assets/preview.mp3', title: 'Track name' } ],   // or { type:'youtube', id:'…' } / { type:'file', src:'…mp4' }
+       checkoutUrl: 'https://…', related: [], featured: true
+     }
+  */
+  shop: { enabled: true, provider: '', supportEmail: '', taxNote: '', delivery: { method: '', after: '' }, products: [] },
+
   /* Beyond the Frame (Index) — confirmed items only: { date: '2026-10-01', title: '', text: '', href: '' } */
   dispatches: []
 };

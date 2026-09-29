@@ -73,7 +73,10 @@ window.ELDOVANT_DATA = {
     noCompany: true,
     controller: '', address: '', email: '', hosting: 'GitHub Pages (GitHub, Inc., USA)', formService: '',
     authority: '', retention: '',
-    law: '',
+    law: {
+      it: 'Questi termini sono regolati dalla legge italiana. Se usi il sito come consumatore, restano salvi i diritti inderogabili che la legge del tuo paese di residenza ti riconosce.',
+      en: 'These terms are governed by Italian law. If you use the site as a consumer, the mandatory consumer rights granted by the law of your country of residence remain unaffected.'
+    },
     updated: '22 September 2026'
   },
 

@@ -625,7 +625,8 @@ function todo(t){ return el('span',{class:'pv-todo',text:t}); }
 })();
 (function(){
   var law=$('#pvLaw');
-  if(P.law){ law.textContent=P.law; }
+  var L=P.law; if(L&&typeof L==='object') L=L[document.documentElement.lang]||'';
+  if(L){ law.textContent=L; }
   else {
     law.append('These terms are governed by ',todo('the law to be specified'),
       '. This section is deliberately left for you to fill in with your lawyer once ELDOVANT\u2019s registered jurisdiction and dispute-resolution approach are decided \u2014 it depends on where the studio is established and cannot be assumed.');

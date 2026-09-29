@@ -431,6 +431,39 @@ html.rm .m-line,html:not(.js) .m-line{display:none}
 .rec-extra ul{display:grid;gap:8px}
 .rec-extra a{text-decoration:none;font-weight:500}
 
+/* ---------- Channels: where the work is published ---------- */
+#recChan{grid-column:1/-1}
+#recChan h3{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+#recChan h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold-lo),transparent);transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease-io)}
+#recChan.in h3::after{transform:scaleX(1)}
+.rec-extra .chan{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.chan li{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms + 150ms)}
+#recChan.in .chan li{opacity:1;transform:none}
+.rec-extra .chan-a{--mx:50%;--my:50%;position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:16px 16px 16px 14px;border:1px solid var(--line-strong);background:linear-gradient(180deg,var(--surface),transparent);color:var(--ink);transition:border-color .4s,transform .5s var(--ease)}
+.chan-a::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(var(--dust),.18),rgba(var(--dust),.03));transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease-io)}
+.chan-a::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(180px circle at var(--mx) var(--my),rgba(var(--dust),.2),transparent 70%);opacity:0;transition:opacity .4s}
+.chan-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);color:var(--gold-hi);transition:border-color .4s,background-color .4s,color .4s,transform .6s var(--ease)}
+:root[data-theme="light"] .chan-ic{color:var(--gold)}
+.chan-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.chan-tx{display:grid;gap:6px;min-width:0}
+.chan-tx b{font:300 1.55rem/1 var(--f-display);letter-spacing:-.005em}
+.chan-tx i{font:400 .7rem/1 var(--f-mono);font-style:normal;letter-spacing:.06em;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .4s}
+.chan-ar{display:grid;place-items:center;transition:transform .5s var(--ease)}
+.chan-ar svg{width:18px;height:18px;fill:none;stroke:var(--mute);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.chan-a:hover,.chan-a:focus-visible{border-color:var(--gold-hi);transform:translateY(-3px)}
+.chan-a:hover::before,.chan-a:focus-visible::before{transform:scaleX(1)}
+.chan-a:hover::after,.chan-a:focus-visible::after{opacity:1}
+.chan-a:hover .chan-ic,.chan-a:focus-visible .chan-ic{border-color:var(--gold-hi);background:var(--gold-hi);color:var(--bg);transform:rotate(-8deg) scale(1.06)}
+.chan-a:hover .chan-tx i,.chan-a:focus-visible .chan-tx i{color:var(--ink)}
+.chan-a:hover .chan-ar,.chan-a:focus-visible .chan-ar{transform:translate(4px,-4px)}
+.chan-a:hover .chan-ar svg,.chan-a:focus-visible .chan-ar svg{stroke:var(--gold-hi)}
+:root[data-theme="light"] .chan-a:hover .chan-ar svg,:root[data-theme="light"] .chan-a:focus-visible .chan-ar svg{stroke:var(--gold)}
+.chan-a:active{transform:translateY(-1px) scale(.99)}
+html.rm .chan li,html:not(.js) .chan li{opacity:1;transform:none;transition:none}
+html.rm #recChan h3::after,html:not(.js) #recChan h3::after{transform:none;transition:none}
+html.rm .chan-a,html.rm .chan-ic,html.rm .chan-ar{transform:none!important}
+html.rm .chan-a::before{transition:none}
+
 /* ---------- Responsive ---------- */
 @media(max-width:900px){
   .st-id,.st-std-head,.st-tools-head,.st-tools-cols{grid-template-columns:1fr;align-items:start}
@@ -787,10 +820,10 @@ var CFG = {
   /* Verify each handle is live before enabling. Empty string = not shown. */
   social: [
     { name: 'YouTube',   href: 'https://www.youtube.com/@eldovant' },
-    { name: 'Instagram', href: '' },
-    { name: 'TikTok',    href: '' },
-    { name: 'Facebook',  href: '' },
-    { name: 'X',         href: '' },
+    { name: 'Instagram', href: 'https://www.instagram.com/eldovant' },
+    { name: 'TikTok',    href: 'https://www.tiktok.com/@eldovant' },
+    { name: 'Facebook',  href: 'https://www.facebook.com/eldovant' },
+    { name: 'X',         href: 'https://x.com/eldovant' },
     { name: 'LinkedIn',  href: '' }
   ],
   slate: '',      // Optional manual override of the "Slate" line. Normally computed from eldovant-data.js.
@@ -861,9 +894,37 @@ if(live.length){
     menuChan.append(el('a',{href:safeUrl(s.href),target:'_blank',rel:'noopener noreferrer',style:'margin-left:20px',text:s.name}));
   });
 } else { $('#rollChanDt').remove(); rollChan.remove(); }
+/* ---------- channels: animated cards ---------- */
+function buildChannels(live){
+  var IC={
+    youtube:'<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.3v5.4l4.6-2.7z"/>',
+    instagram:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/>',
+    tiktok:'<path d="M14 3v11.2a3.2 3.2 0 1 1-3.2-3.2"/><path d="M14 3c.4 2.6 2 4.2 4.6 4.5"/>',
+    facebook:'<path d="M14 21v-8h2.7l.5-3.3H14V7.6c0-1 .4-1.7 1.8-1.7h1.5V3.1C17 3 16 3 15 3c-2.4 0-4 1.5-4 4.1v2.6H8.3V13H11v8z"/>',
+    x:'<path d="M4 4h4.2L20 20h-4.2z"/><path d="M19.5 4l-6.6 7.4M4.5 20l6.6-7.4"/>',
+    linkedin:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V16M8 7.8v.1M12 16v-5.5M12 12.8c0-1.4 1-2.3 2.3-2.3s2 .9 2 2.3V16"/>',
+    globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18"/>'
+  };
+  var IT=document.documentElement.lang==='it';
+  function handle(u){ try{ var x=new URL(u,location.href); var seg=x.pathname.split('/').filter(Boolean).pop()||x.hostname.replace(/^www\./,''); seg=seg.replace(/^@/,''); return (/facebook\./i.test(x.hostname)?'/':'@')+seg; }catch(e){ return ''; } }
+  var box=$('#recChan'), ul=$('ul',box); ul.className='chan';
+  live.forEach(function(s,i){
+    var k=String(s.name||'').toLowerCase().replace(/\s+/g,''), href=safeUrl(s.href), h=handle(href);
+    var ic=el('span',{class:'chan-ic','aria-hidden':'true'}); ic.innerHTML='<svg viewBox="0 0 24 24">'+(IC[k]||IC.globe)+'</svg>';
+    var ar=el('span',{class:'chan-ar','aria-hidden':'true'}); ar.innerHTML='<svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+    var a=el('a',{class:'chan-a',href:href,target:'_blank',rel:'noopener noreferrer','aria-label':s.name+(h?' — '+h:'')+' ('+(IT?'si apre in una nuova scheda':'opens in a new tab')+')'},
+      ic, el('span',{class:'chan-tx'},el('b',{text:s.name}),el('i',{text:h})), ar);
+    a.addEventListener('pointermove',function(e){ var r=a.getBoundingClientRect(); a.style.setProperty('--mx',(e.clientX-r.left)+'px'); a.style.setProperty('--my',(e.clientY-r.top)+'px'); });
+    ul.append(el('li',{style:'--i:'+i},a));
+  });
+  box.hidden=false;
+  if(RM||!('IntersectionObserver' in window)){ box.classList.add('in'); return; }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ box.classList.add('in'); io.disconnect(); } }); },{threshold:.2,rootMargin:'0px 0px -6% 0px'});
+  io.observe(box);
+}
 (function(){
   var extra=$('#recExtra'), shown=false;
-  if(live.length){ var ul=$('#recChan ul'); live.forEach(function(s){ ul.append(el('li',{},el('a',{href:safeUrl(s.href),target:'_blank',rel:'noopener noreferrer',text:s.name}))); }); $('#recChan').hidden=false; shown=true; }
+  if(live.length){ buildChannels(live); shown=true; }
   var ppl=CFG.people.filter(function(p){return p&&p.name});
   if(ppl.length){ var ul2=$('#recPeople ul'); ppl.forEach(function(p){ ul2.append(el('li',{text:p.name+(p.role?' — '+p.role:'')})); }); $('#recPeople').hidden=false; shown=true; }
   if(shown) extra.hidden=false;

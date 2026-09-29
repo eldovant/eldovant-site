@@ -71,7 +71,7 @@ window.ELDOVANT_DATA = {
      updated     : the date of the current text. */
   privacy: {
     noCompany: true,
-    controller: '', address: '', email: '', hosting: '', formService: '',
+    controller: '', address: '', email: '', hosting: 'GitHub Pages (GitHub, Inc., USA)', formService: '',
     authority: '', retention: '',
     law: '',
     updated: '22 September 2026'

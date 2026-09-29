@@ -625,7 +625,8 @@ function todo(t){ return el('span',{class:'pv-todo',text:t}); }
 })();
 (function(){
   var law=$('#pvLaw');
-  if(P.law){ law.textContent=P.law; }
+  var L=P.law; if(L&&typeof L==='object') L=L[document.documentElement.lang]||'';
+  if(L){ law.textContent=L; }
   else {
     law.append('Questi termini sono regolati da ',todo('la legge da specificare'),
       '. Questa sezione è lasciata volutamente da compilare insieme al tuo legale una volta decisa la giurisdizione registrata di ELDOVANT e l\u2019approccio alla risoluzione delle controversie \u2014 dipende da dove lo studio è stabilito e non può essere presunta.');

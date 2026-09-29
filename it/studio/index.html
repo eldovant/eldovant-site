@@ -211,6 +211,9 @@ html:not(.js) .close-line,html.rm .close-line{transform:none}
 @media(max-width:600px){.roll{grid-template-columns:1fr;text-align:center;gap:4px}.roll dt{text-align:center;padding-top:14px}.roll dd{justify-content:center}}
 
 
+/* ---------- shared structure used by this page ---------- */
+.pin-wrap{position:relative}
+.pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column}
 .wipe{clip-path:inset(-.1em 100% -.3em -.1em);transition:clip-path 1.3s var(--ease-io)}
 .wipe.in{clip-path:inset(-.1em -.1em -.3em -.1em)}
 html:not(.js) .wipe,html.rm .wipe{clip-path:none}
